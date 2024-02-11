@@ -8,8 +8,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,35 +26,38 @@ class MyApp extends StatelessWidget {
           title: const Text("Flutter is Fun"),
           backgroundColor: Colors.yellow,
         ),
-        body: ListView.builder(itemBuilder: (_, index) {
-          return Container(color: randomColor(), width: 500, height: 500);
-        }),
-        // Kalau di scaffold bisa tambahin FAB
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "The number of clicked is",
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "$count",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      count = 0;
+                    });
+                  },
+                  child: Text("Reset"))
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
           child: Icon(Icons.add),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Settings"),
-            BottomNavigationBarItem(icon: Icon(Icons.flag), label: "FLag"),
-          ],
-        ),
-        drawer: Drawer(child: Text("Yowasap")),
         // Center is like A container but it sis specified for centering things
       ),
-    );
-  }
-
-  Color randomColor() {
-    Random random = Random();
-    return Color.fromRGBO(
-      random.nextInt(256), // Red
-      random.nextInt(256), // Green
-      random.nextInt(256), // Blue
-      1.0, // Opacity (1.0 for fully opaque)
     );
   }
 }
